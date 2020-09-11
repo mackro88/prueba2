@@ -13,5 +13,11 @@ def request(address)
     return JSON.parse(response.read_body)
 end
 
-fotos = request('https://api.nasa.gov/mars-photos/api/v1/rovers/photos?api_key=LsR7M0qXQpiolnXxaLYGiKoAgR9ZghBKsrOAqVLn')
+curiosity = request('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=0&api_key=LsR7M0qXQpiolnXxaLYGiKoAgR9ZghBKsrOAqVLn')
+opportunity = request('https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?sol=0&api_key=LsR7M0qXQpiolnXxaLYGiKoAgR9ZghBKsrOAqVLn')
+spirit = request('https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos?sol=0&api_key=LsR7M0qXQpiolnXxaLYGiKoAgR9ZghBKsrOAqVLn')
 
+puts "curiosity"
+curiosity["photos"].each do |fotos|
+    puts fotos["camera"]
+end
