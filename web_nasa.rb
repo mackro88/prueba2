@@ -12,7 +12,6 @@ def request(address)
     response = http.request(request)
     return JSON.parse(response.read_body)
 end
-
 curiosity = request('https://api.nasa.gov/mars-photos/api/v1/rovers/curiosity/photos?sol=0&api_key=LsR7M0qXQpiolnXxaLYGiKoAgR9ZghBKsrOAqVLn')
 opportunity = request('https://api.nasa.gov/mars-photos/api/v1/rovers/opportunity/photos?sol=0&api_key=LsR7M0qXQpiolnXxaLYGiKoAgR9ZghBKsrOAqVLn')
 spirit = request('https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos?sol=0&api_key=LsR7M0qXQpiolnXxaLYGiKoAgR9ZghBKsrOAqVLn')
@@ -21,6 +20,10 @@ spirit = request('https://api.nasa.gov/mars-photos/api/v1/rovers/spirit/photos?s
 #curiosity["photos"].each do |fotos|
 #puts fotos["camera"]
 #end
+#curiosity["photos"].each do |item|
+#    puts "<li><img src='"+item['img_src']+"'></li>" 
+#end
+
 
 def head
     '<!doctype html>
@@ -31,13 +34,27 @@ def head
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
     
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-      </head>'
+        <!-- CSS only -->
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+      </head>
+      <body style="background-color:black; color: white">'
 end
 
-def body()
- 
+def build_web_page(curiosity)
+    lista = '
+        <div class="content"> 
+            <ul><h1>Curiosity</h1>
+                <div class="row">
+                    '
+    curiosity["photos"].each do |item|
+        img_link = item['img_src'] 
+        lista += "<li><img src='#{img_link}'></li>"
+        end 
+    lista += '      </div>
+                </ul>
+            </div>'
+    return lista
 end
 
 def foot
@@ -50,5 +67,5 @@ def foot
 </html>'
 end
 
-index = head() + foot()
+index = head() + build_web_page(curiosity) + foot()
 File.write('./index.html', index)
